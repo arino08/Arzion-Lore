@@ -36,7 +36,7 @@ export const createContent = async (state: any, form: FormData, Content: string)
         return parseServerActionResponse({
             ...result,
             error: "",
-            status: "SUCCESS!"
+            status: "SUCCESS"
         });
 
     } catch (error) {
