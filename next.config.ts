@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  }
+  },
   /* config options here */
   images: {
     dangerouslyAllowSVG: true,
@@ -19,7 +19,6 @@ const nextConfig: NextConfig = {
   }, 
   experimental: {
     ppr: "incremental",
-    after: true,
   },
   devIndicators: {
     appIsrStatus: true,
