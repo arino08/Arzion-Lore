@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createContent } from "@/lib/actions";
 
-const loreForm = () => {
+const LoreForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [Content, setContent] = useState("");
   const { toast } = useToast();
@@ -178,4 +178,4 @@ const loreForm = () => {
   );
 };
 
-export default loreForm;
+export default LoreForm;
