@@ -54,20 +54,20 @@ const Navbar = async () => {
               </form>
               </AnimatedBackground>
               {session?.user?.id ? (
-              <Link href={`/user/${session.user.id}`}>
-                <Avatar className="size-10 ">
-                  <AvatarImage
-                    src={session.user.image || ""}
-                    alt={session.user.name || ""}
-                  />
-                  <AvatarFallback>AV</AvatarFallback>
-                </Avatar>
-              </Link>
-            ) : (
-              <Avatar className="size-10">
-                <AvatarFallback>AV</AvatarFallback>
-              </Avatar>
-            )}
+  <Link href={`/user/${session.user.id}`}>
+    <Avatar className="size-10">
+      <AvatarImage
+        src={session.user.image || ""}
+        alt={session.user.name || ""}
+      />
+      <AvatarFallback>AV</AvatarFallback>
+    </Avatar>
+  </Link>
+) : (
+  <Avatar className="size-10">
+    <AvatarFallback>AV</AvatarFallback>
+  </Avatar>
+)}
             </>
           ) : (
             <AnimatedBackground 

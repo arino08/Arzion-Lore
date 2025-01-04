@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { client } from "@/sanity/lib/client";
-import { AUTHOR_BY_GOOGLE_ID_QUERY, AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
+import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import UserLore from "@/components/UserLore";
@@ -10,14 +10,12 @@ import { LoreCardSkeleton } from "@/components/LoreCard";
 export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: { id: string } }) => {
-  // Remove Promise wrapper from params type
   const id = params.id;
-  console.log("Fetching user with ID:", id); // Debug log
-
   const session = await auth();
+  console.log("Fetching user with ID:", id);
+
   const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id });
-  
-  console.log("Found user:", user); // Debug log
+  console.log("Found user:", user);
   
   if (!user) return notFound();
 

@@ -15,21 +15,26 @@ export const LORE_QUERY =
   image,
 }`);
 
-export const LORE_BY_ID_QUERY =
-  defineQuery(`*[_type == "lore" && _id == $id][0]{
-  _id, 
-  title, 
-  slug,
-  _createdAt,
-  author -> {
-    _id, name, username, image, bio
-  }, 
-  views,
-  description,
-  category,
-  image,
-  Content,
-}`);
+export const LORE_BY_ID_QUERY = `
+  *[_type == "lore" && _id == $id][0] {
+    _id,
+    title,
+    description,
+    image,
+    Content,
+    _createdAt,
+    category,
+    author->{
+      _id,
+      id,
+      name,
+      username,
+      image
+    }
+  }
+`;
+
+
 
 export const LORE_VIEWS_QUERY = defineQuery(`
     *[_type == "lore" && _id == $id][0]{
@@ -68,23 +73,25 @@ export const AUTHOR_BY_ID_QUERY = `
     username,
     image,
     bio
+  }`
+
+  export const LORES_BY_AUTHOR_QUERY = `
+  *[_type == "lore" && author._ref in *[_type=="author" && id==$id]._id] | order(_createdAt desc) {
+    _id,
+    title,
+    description,
+    image,
+    _createdAt,
+    category,
+    author->{
+      _id,
+      id,
+      name,
+      image,
+      username
+    }
   }
 `;
-
-export const LORES_BY_AUTHOR_QUERY =
-  defineQuery(`*[_type == "lore" && author._ref == $id] | order(_createdAt desc) {
-  _id, 
-  title, 
-  slug,
-  _createdAt,
-  author -> {
-    _id, name, image, bio
-  }, 
-  views,
-  description,
-  category,
-  image,
-}`);
 
 export const PLAYLIST_BY_SLUG_QUERY =
   defineQuery(`*[_type == "playlist" && slug.current == $slug][0]{
@@ -110,3 +117,36 @@ export const PLAYLIST_BY_SLUG_QUERY =
     Content
   }
 }`);
+
+export const EDITOR_PICKS_QUERY = `
+  *[_type == "playlist" && slug.current == "editor-picks"][0] {
+    "posts": posts[]->{
+      _id,
+      title,
+      description,
+      image,
+      _createdAt,
+      author->
+    }
+  }
+`;
+
+
+export const LORES_QUERY = `
+  *[_type == "lore"] | order(_createdAt desc) {
+    _id,
+    title,
+    description,
+    image,
+    _createdAt,
+    category,
+    views,
+    author->{
+      _id,
+      id,
+      name,
+      image,
+      username
+    }
+  }
+`;

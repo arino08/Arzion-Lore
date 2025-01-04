@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
-import { formSchema } from "../lib/validation";
+import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -30,27 +30,28 @@ const LoreForm = () => {
 
       await formSchema.parseAsync(formValues);
 
-      const result = await createContent(prevState, formData, Content);
+      const result = await createContent(formData, Content);
 
-      if (result.status == "SUCCESS") {
+      if (result.status === "SUCCESS") {
         toast({
           title: "Success",
-          description: "Your lore has been created successfully",
+          description: "Lore created successfully!",
+          variant: "default",
         });
 
-        router.push(`/lore/${result._id}`);
+        router.push("/");
+        router.refresh();
       }
 
       return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErorrs = error.flatten().fieldErrors;
-
-        setErrors(fieldErorrs as unknown as Record<string, string>);
+        const fieldErrors = error.flatten().fieldErrors;
+        setErrors(fieldErrors as unknown as Record<string, string>);
 
         toast({
           title: "Error",
-          description: "Please check your inputs and try again",
+          description: "Please check your inputs",
           variant: "destructive",
         });
 
@@ -59,13 +60,13 @@ const LoreForm = () => {
 
       toast({
         title: "Error",
-        description: "An unexpected error has occurred",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
 
       return {
         ...prevState,
-        error: "An unexpected error has occurred",
+        error: "An unexpected error occurred",
         status: "ERROR",
       };
     }
@@ -89,7 +90,6 @@ const LoreForm = () => {
           required
           placeholder="Lore Title"
         />
-
         {errors.title && <p className="lore-form_error">{errors.title}</p>}
       </div>
 
@@ -104,7 +104,6 @@ const LoreForm = () => {
           required
           placeholder="Lore Description"
         />
-
         {errors.description && (
           <p className="lore-form_error">{errors.description}</p>
         )}
@@ -119,9 +118,8 @@ const LoreForm = () => {
           name="category"
           className="lore-form_input"
           required
-          placeholder="Lore Category (e.g. Fantasy, Sci-Fi, Realism)"
+          placeholder="Lore Category"
         />
-
         {errors.category && (
           <p className="lore-form_error">{errors.category}</p>
         )}
@@ -136,9 +134,8 @@ const LoreForm = () => {
           name="link"
           className="lore-form_input"
           required
-          placeholder="Lore Thumbnail URL"
+          placeholder="Lore Image URL"
         />
-
         {errors.link && <p className="lore-form_error">{errors.link}</p>}
       </div>
 
@@ -146,32 +143,29 @@ const LoreForm = () => {
         <label htmlFor="Content" className="lore-form_label">
           Content
         </label>
-
         <MDEditor
           value={Content}
-          onChange={(Content) => setContent(Content as string)}
+          onChange={(value) => setContent(value as string)}
           id="Content"
           preview="edit"
           height={300}
           style={{ borderRadius: 20, overflow: "hidden" }}
           textareaProps={{
-            placeholder:
-              "Pen your Lore...",
+            placeholder: "Write your lore content here...",
           }}
           previewOptions={{
             disallowedElements: ["style"],
           }}
         />
-
         {errors.Content && <p className="lore-form_error">{errors.Content}</p>}
       </div>
 
       <Button
         type="submit"
-        className="lore-form_btn text-white"
+        className="lore-form_btn text-white-100"
         disabled={isPending}
       >
-        {isPending ? "Submitting..." : "Submit Your Lore"}
+        {isPending ? "Creating..." : "Create Lore"}
         <Send className="size-6 ml-2" />
       </Button>
     </form>
