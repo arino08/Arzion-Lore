@@ -13,6 +13,7 @@ import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
 import View from "@/components/View";
 import LoreCard, { LoreTypeCard } from "@/components/LoreCard";
+import { TextEffect } from "@/components/ui/text-effect";
 
 const md = markdownit();
 
@@ -36,11 +37,16 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
     return (
         <>
+        
             <section className="black_container !min-h-[230px]">
                 <p className="tag">{formatDate(post?._createdAt)}</p>
 
-                <h1 className="heading">{post.title}</h1>
-                <p className="sub-heading !max-w-5xl">{post.description}</p>
+                <h1 className="heading"><TextEffect per='char' preset='fade'>
+            {post.title}
+          </TextEffect></h1>
+                <p className="sub-heading !max-w-5xl"><TextEffect per='char' preset='fade'>
+            {post.description}
+          </TextEffect></p>
             </section>
 
             <section className="section_container">

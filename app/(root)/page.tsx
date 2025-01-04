@@ -6,6 +6,10 @@ import { LORE_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { auth } from '@/auth';
 import { AnimatedGroup } from '@/components/ui/animated-group';
+import { TextLoop } from '@/components/ui/text-loop';
+import { motion } from 'framer-motion';
+import Head from 'next/head';
+import HeadingSubheading from '@/components/HeadingSubheading';
 
 export default async function Home  ({searchParams} : {
   searchParams: Promise<{ query?: string}>
@@ -22,13 +26,30 @@ export default async function Home  ({searchParams} : {
   return (
     <>
     <section className='black_container'>
-
-    <h1 className='heading'> A Realm for Dreamers and Storytellers.</h1>
+    {/* <motion.h1
+          className="heading"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+    <h1 className="heading">
+        A Realm for {' '}
+        <TextLoop interval={2}>
+          <span>Storytellers</span>
+          <span>Creators</span>
+          <span>Thinkers</span>
+          <span>Writers</span>
+          <span>Dreamers</span>
+        </TextLoop>
+        .
+      </h1>
+      </motion.h1>
 
     <p className='sub-heading !max-w-3xl'>
     Share your imagination, unveil your truths, and connect through words. <br />
     {/* Dive into a world where imagination meets reality, and every voice finds its place. */}
-    </p>
+    {/*</p> */}
+    <HeadingSubheading />
 
     <SearchForm query = {query}/>
 

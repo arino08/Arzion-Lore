@@ -48,7 +48,7 @@
     }
 
     .black_container {
-        @apply w-full bg-primary min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+        @apply w-full bg-primary min-h-[380px] pattern flex justify-center items-center flex-col py-10 px-6;
     }
 
     .tag {
@@ -56,7 +56,7 @@
     }
 
     .heading {
-        @apply uppercase bg-white px-6 py-3 font-work-sans font-extrabold text-black-100 sm:text-[54px] sm:leading-[64px] text-[36px] leading-[46px] max-w-5xl text-center my-5;
+        @apply uppercase bg-white px-7 py-9 font-work-sans font-extrabold text-black-100 lg:text-[74] sm:text-[54px] sm:leading-[64px] text-[36px] leading-[46px] max-w-5xl text-center my-5;
     }
 
     .sub-heading {
@@ -222,6 +222,9 @@
 .w-md-editor-toolbar {
     padding: 10px !important;
 }
+
+
+
 
 
 
