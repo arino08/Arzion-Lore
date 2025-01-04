@@ -5,6 +5,7 @@ import { client } from '@/sanity/lib/client';
 import { LORE_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { auth } from '@/auth';
+import { AnimatedGroup } from '@/components/ui/animated-group';
 
 export default async function Home  ({searchParams} : {
   searchParams: Promise<{ query?: string}>
@@ -41,7 +42,39 @@ export default async function Home  ({searchParams} : {
       <ul className='mt-7 card_grid'>
         {posts?.length > 0 ?(
           posts.map((post: LoreTypeCard) => (
+            <AnimatedGroup
+      className=''
+      variants={{
+        container: {
+          visible: {
+            transition: {
+              staggerChildren: 0.05,
+            },
+          },
+        },
+        item: {
+          hidden: {
+            opacity: 0,
+            filter: 'blur(12px)',
+            y: -60,
+            rotateX: 90,
+          },
+          visible: {
+            opacity: 1,
+            filter: 'blur(0px)',
+            y: 0,
+            rotateX: 0,
+            transition: {
+              type: 'spring',
+              bounce: 0.3,
+              duration: 1,
+            },
+          },
+        },
+      }}
+    >
             <LoreCard key={post?._id} post={post} />
+            </AnimatedGroup>
           ))
         ) : (
           <p className='no-results'>No Lore Found</p>

@@ -31,6 +31,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.452.0",
     "markdown-it": "^14.1.0",
+    "motion": "^11.15.0",
     "next": "15.0.0-canary.183",
     "next-auth": "^5.0.0-beta.22",
     "next-sanity": "^9.5.1-canary.23",
