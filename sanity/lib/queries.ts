@@ -60,17 +60,16 @@ export const AUTHOR_BY_GOOGLE_ID_QUERY = defineQuery(`
 }
 `);
 
-export const AUTHOR_BY_ID_QUERY = defineQuery(`
-*[_type == "author" && _id == $id][0]{
+export const AUTHOR_BY_ID_QUERY = `
+  *[_type == "author" && id == $id][0] {
     _id,
     id,
     name,
     username,
-    email,
     image,
     bio
-}
-`);
+  }
+`;
 
 export const LORES_BY_AUTHOR_QUERY =
   defineQuery(`*[_type == "lore" && author._ref == $id] | order(_createdAt desc) {

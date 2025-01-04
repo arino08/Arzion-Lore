@@ -6,50 +6,69 @@ import { client } from "./sanity/lib/client";
 import { writeClient } from "./sanity/lib/write-client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  debug: true,
   providers: [
     GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      const { name, email, image } = user;
-      let id, login, bio;
-
-      if (account?.provider === "github" && profile) {
-        id = profile.id;
-        login = profile.login;
-        bio = profile?.bio || "";
-      } else if (account?.provider === "google" && profile) {
-        id = profile.sub;
-        login = profile.email?.split("@")[0] || "";
-        bio = profile.bio || "";
-      }
+      console.log("SignIn Callback:", { user, account, profile }); // Debug log
+      
+      if (!profile) return false;
+      
+      const id = account.provider === "github" ? profile.id : profile.sub;
+      console.log("Generated ID:", id); // Debug log
 
       const existingUser = await client
         .withConfig({ useCdn: false })
-        .fetch(account?.provider === "github" ? AUTHOR_BY_GITHUB_ID_QUERY : AUTHOR_BY_GOOGLE_ID_QUERY, {
-          id,
+        .fetch(account.provider === "github" ? AUTHOR_BY_GITHUB_ID_QUERY : AUTHOR_BY_GOOGLE_ID_QUERY, {
+          id: String(id),
         });
+      
+      console.log("Existing User:", existingUser); // Debug log
 
       if (!existingUser) {
-        await writeClient.create({
+        const newUser = await writeClient.create({
           _type: "author",
-          id,
-          name,
-          username: login,
-          email,
-          image,
-          bio: bio || "",
+          id: String(id),
+          name: user.name,
+          username: account.provider === "github" ? profile.login : user.email?.split("@")[0],
+          email: user.email,
+          image: user.image,
+          bio: profile.bio || "",
         });
+        console.log("New User Created:", newUser); // Debug log
       }
 
       return true;
     },
-  },
+    async jwt({ token, user, account, profile }) {
+      console.log("JWT Callback:", { token, user, account, profile }); // Debug log
+      
+      if (profile) {
+        const id = account.provider === "github" ? profile.id : profile.sub;
+        token.id = String(id);
+        console.log("Updated Token:", token); // Debug log
+      }
+      
+      return token;
+    },
+    async session({ session, token }) {
+      console.log("Session Callback:", { session, token }); // Debug log
+      
+      if (token?.id) {
+        session.user.id = token.id;
+        console.log("Updated Session:", session); // Debug log
+      }
+      
+      return session;
+    }
+  }
 });

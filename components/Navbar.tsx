@@ -8,6 +8,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const Navbar = async () => {
   const session = await auth();
+  console.log('Full Session Object:', JSON.stringify(session, null, 2));
+
 
   return (
     <header className='px-5 py-3 bg-black shadow-sm font-work-sans'>
@@ -51,15 +53,21 @@ const Navbar = async () => {
                 </button>
               </form>
               </AnimatedBackground>
-              <Link href={`/user/${session?.id}`}>
+              {session?.user?.id ? (
+              <Link href={`/user/${session.user.id}`}>
                 <Avatar className="size-10 ">
                   <AvatarImage
-                    src={session?.user?.image || ""}
-                    alt={session?.user?.name || ""}
+                    src={session.user.image || ""}
+                    alt={session.user.name || ""}
                   />
                   <AvatarFallback>AV</AvatarFallback>
                 </Avatar>
               </Link>
+            ) : (
+              <Avatar className="size-10">
+                <AvatarFallback>AV</AvatarFallback>
+              </Avatar>
+            )}
             </>
           ) : (
             <AnimatedBackground 
