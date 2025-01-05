@@ -83,6 +83,7 @@ export const AUTHOR_BY_ID_QUERY = `
     image,
     _createdAt,
     category,
+    views,
     author->{
       _id,
       id,
