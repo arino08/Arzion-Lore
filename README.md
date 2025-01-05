@@ -108,8 +108,4 @@ arzion/
 ## License
 
 MIT License - see LICENSE.md
-
-## Contact
-
-Your Name - [@yourusername](https://twitter.com/yourusername)
 ```
