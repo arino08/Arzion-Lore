@@ -11,6 +11,9 @@ import HeadingSubheading from '@/components/HeadingSubheading'
 
 
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home({
   searchParams,
 }: {
@@ -18,9 +21,12 @@ export default async function Home({
 }) {
   const query = (await searchParams).query;
   const params = { search: query || null };
-  const session = await auth();
 
-  const { data: posts } = await sanityFetch({ query: LORES_QUERY, params });
+  const { data: posts } = await sanityFetch({ 
+    query: LORES_QUERY, 
+    params,
+    tags: ['lore', 'views'] 
+  });
 
   return (
     <>
@@ -35,46 +41,14 @@ export default async function Home({
         </p>
 
         <ul className="mt-7 card_grid">
-          {posts?.length > 0 ? (
-            posts.map((post: LoreTypeCard) => (
-              <AnimatedGroup
-                key={post._id}
-                variants={{
-                  container: {
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.05,
-                      },
-                    },
-                  },
-                  item: {
-                    hidden: {
-                      opacity: 0,
-                      filter: 'blur(12px)',
-                      y: -60,
-                      rotateX: 90,
-                    },
-                    visible: {
-                      opacity: 1,
-                      filter: 'blur(0px)',
-                      y: 0,
-                      rotateX: 0,
-                      transition: {
-                        type: 'spring',
-                        bounce: 0.3,
-                        duration: 1,
-                      },
-                    },
-                  },
-                }}
-              >
-                <LoreCard post={post} />
-              </AnimatedGroup>
-            ))
-          ) : (
-            <p className="no-results">No Lore Found</p>
-          )}
-        </ul>
+      {posts?.length > 0 ? (
+        posts.map((post: LoreTypeCard) => (
+            <LoreCard post={post} />
+        ))
+      ) : (
+        <p className="no-results">No Lore Found</p>
+      )}
+    </ul>
       </section>
 
       <SanityLive />

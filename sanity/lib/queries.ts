@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+import { defineQuery, groq } from "next-sanity";
 
 export const LORE_QUERY =
   defineQuery(`*[_type == "lore" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc) {
@@ -133,21 +133,19 @@ export const EDITOR_PICKS_QUERY = `
 `;
 
 
-export const LORES_QUERY = `
-  *[_type == "lore"] | order(_createdAt desc) {
+export const LORES_QUERY = groq`*[_type == "lore"] | order(_createdAt desc) {
+  _id,
+  title,
+  description,
+  image,
+  _createdAt,
+  category,
+  "views": coalesce(views, 0),
+  author->{
     _id,
-    title,
-    description,
+    id,
+    name,
     image,
-    _createdAt,
-    category,
-    views,
-    author->{
-      _id,
-      id,
-      name,
-      image,
-      username
-    }
+    username
   }
-`
+}`
