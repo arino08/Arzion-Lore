@@ -150,4 +150,4 @@ export const LORES_QUERY = `
       username
     }
   }
-`;
+`

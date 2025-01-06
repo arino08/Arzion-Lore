@@ -8,6 +8,9 @@ import { TextLoop } from '@/components/ui/text-loop'
 import { motion } from 'framer-motion'
 import HeadingSubheading from '@/components/HeadingSubheading'
 
+
+
+
 export default async function Home({
   searchParams,
 }: {
