@@ -42,17 +42,17 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <TextEffect per='char' preset='fade'>{post.description}</TextEffect>
           </p>
         </section>
-  
+
         <section className="section_container">
           <img
             src={post.image}
             alt="thumbnail"
             className="w-full h-auto rounded-xl object-cover max-h-[600px]"
           />
-  
+
           <div className="space-y-5 mt-10 max-w-4xl mx-auto">
             <div className="flex-between gap-5">
-              
+
       <Link
         href={`/user/${post.author?.id}`} // Changed from _id to id
         className="flex gap-2 items-center mb-3"
@@ -71,20 +71,20 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </Link>
               <p className="category-tag hover:scale-105 transition-transform">{post.category}</p>
             </div>
-  
+
             <h3 className="text-30-bold">Lore Details</h3>
             {parsedContent ? (
         <article
-          className="prose max-w-4xl font-work-sans break-all"
+          className="prose max-w-4xl font-work-sans break-normal"
           dangerouslySetInnerHTML={{ __html: parsedContent }}
         />
       ) : (
         <p className="no-result">No content available</p>
       )}
           </div>
-  
+
           <hr className="divider my-10" />
-  
+
           {editorPosts?.length > 0 && (
             <div className="max-w-4xl mx-auto">
               <p className="text-30-semibold mb-5">Editor Picks</p>
@@ -95,7 +95,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </ul>
             </div>
           )}
-  
+
           <Suspense fallback={<Skeleton className="view_skeleton" />}>
             <View id={id} />
           </Suspense>
